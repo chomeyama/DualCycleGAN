@@ -1,0 +1,23 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - data: tts_16kHz.gt_48kHz
+  - model: dual_cyclegan
+  - train: dual_cyclegan
+
+hydra:
+  run:
+    dir: ./
+  output_subdir: null
+  job_logging:
+    formatters:
+      simple: 
+        format: '[%(asctime)s][%(module)s: %(lineno)d] %(message)s'
+
+cudnn:
+  benchmark: true
+  deterministic: false
+
+out_dir:
+seed: 12345

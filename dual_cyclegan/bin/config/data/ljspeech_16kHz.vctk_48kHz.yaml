@@ -1,0 +1,21 @@
+# list files recording audio paths
+audio_list_L:  # lists of low-resolution audios
+  train_no_dev: data/list/ljspeech_train_no_dev.list
+  dev: data/list/ljspeech_dev.list
+  eval: data/list/ljspeech_eval.list
+audio_list_H:  # lists of high-resolution audios
+  train_no_dev: data/list/vctk_train_no_dev.list
+  dev: data/list/vctk_dev.list
+  eval: data/list/vctk_eval.list
+
+# sampling rate
+sample_rate_L: 16000
+sample_rate_H: 48000
+
+# Maximum length in a batch of audio with sample_rate_L
+batch_max_steps: 12000
+
+# data loader
+num_workers: 4
+batch_size: 4
+pin_memory: true

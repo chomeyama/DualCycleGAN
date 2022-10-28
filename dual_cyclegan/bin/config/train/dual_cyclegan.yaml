@@ -1,0 +1,88 @@
+n_gpus: 2
+max_train_steps: 600000
+checkpoint_interval: 100000
+log_interval_steps: 2000
+eval_interval_steps: 2000
+finetune_start_steps: 400000
+save_optimizer_state: true
+
+# Losses
+adversarial_loss:
+  _target_: dual_cyclegan.loss.AdversarialLoss
+  average_by_discriminators: false
+  loss_type: mse
+
+feat_match_loss:
+  _target_: dual_cyclegan.loss.FeatMatchLoss
+  average_by_layers: false
+
+cycle_L_loss:
+  _target_: dual_cyclegan.loss.MelSpectralLoss
+  sample_rate: 16000
+  fft_size: 1024
+  hop_size: 80
+  win_length: 1024
+  n_mels: 80
+  window: hann_window
+
+cycle_H_loss:
+  _target_: dual_cyclegan.loss.MelSpectralLoss
+  sample_rate: 48000
+  fft_size: 1024
+  hop_size: 240
+  win_length: 1024
+  n_mels: 120
+  window: hann_window
+
+identity_L_loss:
+  _target_: dual_cyclegan.loss.MelSpectralLoss
+  sample_rate: 16000
+  fft_size: 1024
+  hop_size: 80
+  win_length: 1024
+  n_mels: 80
+  window: hann_window
+
+identity_H_loss:
+  _target_: dual_cyclegan.loss.MelSpectralLoss
+  sample_rate: 48000
+  fft_size: 1024
+  hop_size: 240
+  win_length: 1024
+  n_mels: 120
+  window: hann_window
+
+# loss weight terms
+lambda_adv: 1.0
+lambda_fm: 0.0
+lambda_cyc: 10.0
+lambda_idt: 10.0
+identity_loss_until: 100000
+
+optim:
+  generator:
+    optimizer:
+      _target_: torch.optim.Adam
+      lr: 0.0002
+      betas: [0.5, 0.999]
+      weight_decay: 0.0
+    lr_scheduler:
+      _target_: torch.optim.lr_scheduler.StepLR
+      step_size: 200000
+      gamma: 0.5
+    clip_norm: 10
+  discriminator:
+    optimizer:
+      _target_: torch.optim.Adam
+      lr: 0.0001
+      betas: [0.5, 0.999]
+      weight_decay: 0.0
+    lr_scheduler:
+      _target_: torch.optim.lr_scheduler.StepLR
+      step_size: 200000
+      gamma: 0.5
+    clip_norm: 10
+
+resume:
+  checkpoint_path:
+  load_only_params: false

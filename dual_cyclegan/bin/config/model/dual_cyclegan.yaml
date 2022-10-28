@@ -1,0 +1,119 @@
+G1:
+  _target_: dual_cyclegan.model.DualCycleGANGenerator
+  in_channels: 1                       # Number of input channels.
+  out_channels: 1                      # Number of output channels.
+  num_blocks: 6                        # Number of residual blocks.
+  channels: 64                         # Number of channels in residual conv.
+  kernel_size: 15                      # Kernel size.
+  use_resample_net: false              # Whether to use resampling layer.
+  use_weight_norm: true                # Whether to apply weight normalization.
+
+G2:
+  _target_: dual_cyclegan.model.DualCycleGANGenerator
+  in_channels: 1                       # Number of input channels.
+  out_channels: 1                      # Number of output channels.
+  num_blocks: 6                        # Number of residual blocks.
+  channels: 64                         # Number of channels in residual conv.
+  kernel_size: 15                      # Kernel size.
+  use_resample_net: false              # Whether to use resampling layer.
+  use_weight_norm: true                # Whether to apply weight normalization.
+
+G3:
+  _target_: dual_cyclegan.model.DualCycleGANGenerator
+  in_channels: 1                       # Number of input channels.
+  out_channels: 1                      # Number of output channels.
+  num_blocks: 6                        # Number of residual blocks.
+  channels: 64                         # Number of channels in residual conv.
+  kernel_size: 15                      # Kernel size.
+  use_resample_net: true               # Whether to use resampling layer.
+  resample_params:                     # Params for the resampling layer.
+    orig_freq: 16000                   # Sampling rate of input signal.
+    new_freq: 48000                    # Sampling rate of output signal.
+    lowpass_filter_width: 151          # Kernel size of lowpass filter.
+  use_weight_norm: true                # Whether to apply weight normalization.
+
+G4:
+  _target_: dual_cyclegan.model.DualCycleGANGenerator
+  in_channels: 1                       # Number of input channels.
+  out_channels: 1                      # Number of output channels.
+  num_blocks: 6                        # Number of residual blocks.
+  channels: 64                         # Number of channels in residual conv.
+  kernel_size: 15                      # Kernel size.
+  use_resample_net: true               # Whether to use resampling layer.
+  resample_params:                     # Params for the resampling layer.
+    orig_freq: 48000                   # Sampling rate of input signal.
+    new_freq: 16000                    # Sampling rate of output signal.
+    lowpass_filter_width: 151          # Kernel size of lowpass filter.
+  use_weight_norm: true                # Whether to apply weight normalization.
+
+D1:
+  _target_: dual_cyclegan.model.DualCycleGANDiscriminator
+  time_params:                         # Params for time domain discriminator.
+    in_channels: 1                     # Number of input channels.
+    out_channels: 1                    # Number of output channels.
+    kernel_size: 3                     # Kernel size of conv layers.
+    layers: 10                         # Number of conv layers.
+    conv_channels: 64                  # Number of hidden channels.
+    dilation_factor: 2                 # Dialtion factor size.
+    use_weight_norm: true              # Whether to apply weight normalization.
+  spec_params:                         # Params for spectral domain discriminator.
+    stft_params:                       # Params for STFT.
+      n_fft: 512                       # FFT size.
+      hop_length: 80                   # Frame shift size.
+      win_length: 512                  # Window size.
+      power: 1.0                       # Exponent for magnitude spectrogram.
+    groups: [1, 4, 16, 64, 256]        # List of group sizes.
+    n_layers: 3                        # Number of conv layers.
+    kernel_size: 4                     # Kernel size.
+    stride: 2                          # Stride size.
+    summarize: true                    # Whether to summarize outputs of sub-discriminators.
+    use_weight_norm: true              # Whether to apply weight normalization.
+    use_spectral_norm: false           # Whether to apply spectral norm.
+
+D2:
+  _target_: dual_cyclegan.model.DualCycleGANDiscriminator
+  time_params:                         # Params for time domain discriminator.
+    in_channels: 1                     # Number of input channels.
+    out_channels: 1                    # Number of output channels.
+    kernel_size: 3                     # Kernel size of conv layers.
+    layers: 10                         # Number of conv layers.
+    conv_channels: 64                  # Number of hidden channels.
+    dilation_factor: 2                 # Dialtion factor size.
+    use_weight_norm: true              # Whether to apply weight normalization.
+  spec_params:                         # Params for spectral domain discriminator.
+    stft_params:                       # Params for STFT.
+      n_fft: 512                       # FFT size.
+      hop_length: 80                   # Frame shift size.
+      win_length: 512                  # Window size.
+      power: 1.0                       # Exponent for magnitude spectrogram.
+    groups: [1, 4, 16, 64, 256]        # List of group sizes.
+    n_layers: 3                        # Number of conv layers.
+    kernel_size: 4                     # Kernel size.
+    stride: 2                          # Stride size.
+    summarize: true                    # Whether to summarize outputs of sub-discriminators.
+    use_weight_norm: true              # Whether to apply weight normalization.
+    use_spectral_norm: false           # Whether to apply spectral norm.
+
+D3:
+  _target_: dual_cyclegan.model.DualCycleGANDiscriminator
+  time_params:                         # Params for time domain discriminator.
+    in_channels: 1                     # Number of input channels.
+    out_channels: 1                    # Number of output channels.
+    kernel_size: 3                     # Kernel size of conv layers.
+    layers: 10                         # Number of conv layers.
+    conv_channels: 64                  # Number of hidden channels.
+    dilation_factor: 2                 # Dialtion factor size.
+    use_weight_norm: true              # Whether to apply weight normalization.
+  spec_params:                         # Params for spectral domain discriminator.
+    stft_params:                       # Params for STFT.
+      n_fft: 1024                      # FFT size.
+      hop_length: 120                  # Frame shift size.
+      win_length: 1024                 # Window size.
+      power: 1.0                       # Exponent for magnitude spectrogram.
+    groups: [1, 4, 16, 64, 256, 512]   # List of group sizes.
+    n_layers: 3                        # Number of conv layers.
+    kernel_size: 4                     # Kernel size.
+    stride: 2                          # Stride size.
+    summarize: true                    # Whether to summarize outputs of sub-discriminators.
+    use_weight_norm: true              # Whether to apply weight normalization.
+    use_spectral_norm: false           # Whether to apply spectral norm.

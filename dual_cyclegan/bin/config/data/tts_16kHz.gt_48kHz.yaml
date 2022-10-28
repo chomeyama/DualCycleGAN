@@ -1,0 +1,23 @@
+# list files recording audio paths
+# The dataset divisions are the same as that
+# of the LJSpeech and VCTK project in the paper.
+audio_list_L:  # lists of TTS samples
+  train_no_dev: data/list/tts_train_no_dev.list
+  dev: data/list/tts_dev.list
+  eval: data/list/tts_eval.list
+audio_list_H:  # lists of grond truth samples
+  train_no_dev: data/list/gt_train_no_dev.list
+  dev: data/list/gt_dev.list
+  eval: data/list/gt_eval.list
+
+# sampling rate
+sample_rate_L: 16000
+sample_rate_H: 48000
+
+# Maximum length in a batch of audio with sample_rate_L
+batch_max_steps: 12000
+
+# data loader
+num_workers: 4
+batch_size: 4
+pin_memory: true
