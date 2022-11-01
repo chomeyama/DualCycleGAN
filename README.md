@@ -1,9 +1,9 @@
 # Dual-CycleGAN for NonParallel High-Quality Audio Super-Resolution
 
-This repositry provides official pytorch implementation of [Dual-CycleGAN]().<br>
+This repositry provides official pytorch implementation of [Dual-CycleGAN](https://arxiv.org/abs/2210.15887).<br>
 Specifically, Dual-CycleGAN enables you to train a high-quality super resolution (SR) model (e.g., 16kHz -> 48kHz) only with low-resolution audio signals of the target domain with high-resolution audio signals of another domain.
 
-Please check the [demo](https://chomeyama.github.io/DualCycleGAN-Demo/) for more information.
+Please check the [DEMO](https://chomeyama.github.io/DualCycleGAN-Demo/) for more information.
 
 ## Environment setup
 
@@ -16,6 +16,7 @@ This will install the core library (`dual-cyclegan` and its submodules) and CLI 
 Please refer to the [Parallel WaveGAN](https://github.com/kan-bayashi/ParallelWaveGAN) repo for more details.
 
 ## Folder architecture
+
 - **egs**:
 The folder for projects.
 - **egs/tts_16kHz.gt_48kHz**:
@@ -49,7 +50,7 @@ $ dual-cyclegan-infer data=tts_16kHz.gt_48kHz model=dual_cyclegan out_dir=exp/du
 ### Monitor training progress
 
 ```bash
-$ tensorboard --logdir exp
+tensorboard --logdir exp
 ```
 
 ### Details of the list files
